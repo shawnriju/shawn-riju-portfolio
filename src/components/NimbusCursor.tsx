@@ -1,4 +1,5 @@
 import { useEffect, useRef, useCallback, useState } from "react";
+import ShawnChibi from "./ShawnChibi";
 import {
   motion,
   useMotionValue,
@@ -37,7 +38,7 @@ const TILT_SPRING = { damping: 20, stiffness: 120, mass: 0.8 };
 const BOB_AMPLITUDE = 6;
 const BOB_FREQUENCY = 0.002;
 const IDLE_TIMEOUT = 1000;
-const CLOUD_SIZE = 56;
+const CLOUD_SIZE = 40;
 const HALF = CLOUD_SIZE / 2;
 
 let sparkId = 0;
@@ -56,6 +57,10 @@ const NimbusCursor = () => {
 
   // Hover state detection
   const [isHovering, setIsHovering] = useState(false);
+
+  // Character pointing angle
+  const pointerAngle = useMotionValue(0);
+  const springPointerAngle = useSpring(pointerAngle, { damping: 20, stiffness: 200 });
 
   // Velocity tracking for tilt
   const velocityX = useMotionValue(0);
@@ -173,11 +178,33 @@ const NimbusCursor = () => {
 
       // Check for hover over interactive elements
       const target = e.target as HTMLElement;
+      let clickableEl: HTMLElement | null = null;
       if (target && typeof target.closest === 'function') {
-        const isClickable = !!target.closest(
+        clickableEl = target.closest(
           'a, button, input, select, textarea, label, [role="button"], .cursor-pointer'
-        );
-        setIsHovering(isClickable);
+        ) as HTMLElement | null;
+        setIsHovering(!!clickableEl);
+      }
+
+      // Dynamic Pointing Calculation
+      if (clickableEl) {
+        const rect = clickableEl.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        const targetDx = cx - e.clientX;
+        const targetDy = cy - e.clientY;
+        const angle = Math.atan2(targetDy, targetDx) * (180 / Math.PI);
+
+        // Prevent spring rotation jumping by adjusting the angle relative to current
+        const currentAngle = pointerAngle.get();
+        const diff = ((angle - currentAngle + 180) % 360) - 180;
+        pointerAngle.set(currentAngle + diff);
+      } else {
+        // Return to default resting angle gracefully (0)
+        const currentAngle = pointerAngle.get();
+        const diff = ((0 - currentAngle + 180) % 360) - 180;
+        // Optional: you can comment this out if you want it to stay pointing at the last thing it saw
+        pointerAngle.set(currentAngle + diff);
       }
 
       // Exit idle on movement
@@ -252,10 +279,6 @@ const NimbusCursor = () => {
 
       {/* Main Cloud */}
       <motion.div
-        animate={{
-          scale: isHovering && !isIdleRef.current ? 1.25 : 1,
-        }}
-        transition={{ type: "spring", stiffness: 300, damping: 20 }}
         style={{
           position: "absolute",
           left: compositeX,
@@ -271,7 +294,6 @@ const NimbusCursor = () => {
         <motion.div
           animate={{
             opacity: isHovering && !isIdleRef.current ? 1 : 0,
-            scale: isHovering && !isIdleRef.current ? 1.4 : 1,
           }}
           transition={{ duration: 0.2 }}
           style={{
@@ -280,10 +302,27 @@ const NimbusCursor = () => {
             borderRadius: "50%",
             background:
               "radial-gradient(ellipse at center, rgba(255, 215, 0, 0.6) 0%, rgba(255, 140, 0, 0.3) 50%, transparent 70%)",
-            filter: "blur(12px)",
+            filter: "blur(8px)",
             opacity: glowOpacity,
           }}
         />
+
+        {/* Character Model */}
+        <motion.div
+          style={{
+            position: "absolute",
+            width: 32,
+            height: 32,
+            left: "50%",
+            bottom: "55%", // Sits on top center lobe
+            x: "-50%",
+            pointerEvents: "none",
+            filter: "drop-shadow(0px 2px 4px rgba(0,0,0,0.5))",
+            zIndex: 10
+          }}
+        >
+          <ShawnChibi armAngle={springPointerAngle} />
+        </motion.div>
 
         {/* Multi-layered SVG Cloud */}
         <svg

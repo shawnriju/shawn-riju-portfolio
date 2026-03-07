@@ -17,6 +17,7 @@ const Index = () => {
   const [activeSection, setActiveSection] = useState("about");
   const [eagleVision, setEagleVision] = useState(false);
   const [smokeActive, setSmokeActive] = useState(false);
+  const [nimbusActive, setNimbusActive] = useState(false);
 
   const handleNavigate = useCallback((id: string) => {
     setSmokeActive(true);
@@ -48,9 +49,19 @@ const Index = () => {
     return () => observer.disconnect();
   }, []);
 
+  // Manage global body class for hiding default cursor when Nimbus is active
+  useEffect(() => {
+    if (nimbusActive) {
+      document.body.classList.add("nimbus-active");
+    } else {
+      document.body.classList.remove("nimbus-active");
+    }
+  }, [nimbusActive]);
+
   return (
-    <div className={`min-h-screen transition-all duration-500 ${eagleVision ? "eagle-vision" : ""}`}>
-      <NimbusCursor />
+    <div className={`min-h-screen transition-colors duration-500 ${eagleVision ? "eagle-vision" : ""}`}>
+      <div className={`eagle-vision-overlay transition-all duration-500 ${eagleVision ? "opacity-100" : "opacity-0 pointer-events-none"}`} aria-hidden="true" />
+      {nimbusActive && <NimbusCursor />}
       <ScrollbarController />
       <SmokeTransition isActive={smokeActive} />
       <TacticalHeader
@@ -58,6 +69,8 @@ const Index = () => {
         onNavigate={handleNavigate}
         eagleVision={eagleVision}
         onToggleEagle={() => setEagleVision(!eagleVision)}
+        nimbusActive={nimbusActive}
+        onToggleNimbus={() => setNimbusActive(!nimbusActive)}
       />
       <MobMeter />
 

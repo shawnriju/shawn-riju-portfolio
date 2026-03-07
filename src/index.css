@@ -43,7 +43,8 @@
     --eagle-gold: 45 100% 50%;
     --ssj-gold: 45 90% 55%;
     --ssb-blue: 210 80% 55%;
-    --ui-white: 0 0% 96%;
+    --ui-white: 210 15% 65%;
+    /* Cool grayish-silver for contrast against cream */
 
     --sidebar-background: 40 20% 89%;
     --sidebar-foreground: 30 10% 15%;
@@ -60,12 +61,16 @@
   * {
     @apply border-border;
     font-family: 'JetBrains Mono', monospace;
-    cursor: none !important;
   }
 
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.nimbus-active,
+.nimbus-active * {
+  cursor: none !important;
 }
 
 /* Double border utility */
@@ -96,8 +101,16 @@
 
 /* Eagle Vision Mode */
 .eagle-vision {
-  filter: saturate(0.2) brightness(0.7);
   background: hsl(var(--eagle-blue)) !important;
+}
+
+.eagle-vision-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 45;
+  /* Below header (50) but above everything else */
+  backdrop-filter: saturate(0.2) brightness(0.7);
 }
 
 .eagle-vision .eagle-glow {

@@ -14,9 +14,11 @@ interface TacticalHeaderProps {
   onNavigate: (id: string) => void;
   eagleVision: boolean;
   onToggleEagle: () => void;
+  nimbusActive: boolean;
+  onToggleNimbus: () => void;
 }
 
-const TacticalHeader = ({ activeSection, onNavigate, eagleVision, onToggleEagle }: TacticalHeaderProps) => {
+const TacticalHeader = ({ activeSection, onNavigate, eagleVision, onToggleEagle, nimbusActive, onToggleNimbus }: TacticalHeaderProps) => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-sm">
       <div className="max-w-6xl mx-auto px-4">
@@ -28,16 +30,28 @@ const TacticalHeader = ({ activeSection, onNavigate, eagleVision, onToggleEagle 
           </div>
           <div className="flex items-center gap-4">
             <button
-              onClick={onToggleEagle}
-              className={`text-xs tracking-wider px-3 py-1 border transition-all duration-300 ${
-                eagleVision
+              onClick={onToggleNimbus}
+              className={`flex items-center gap-2 text-xs tracking-wider px-3 py-1 border transition-all duration-300 ${nimbusActive
                   ? "bg-foreground text-primary-foreground border-foreground"
                   : "border-border hover:bg-secondary"
-              }`}
+                }`}
+              title="Toggle Nimbus Cursor"
+            >
+              <div className={`w-4 h-4 rounded-full flex items-center justify-center ${nimbusActive ? "bg-[#FF8C00] shadow-[0_0_8px_#FFD700]" : "bg-muted"}`}>
+                <span className={`text-[8px] ${nimbusActive ? "text-[#FF0000]" : "text-muted-foreground"}`}>★</span>
+              </div>
+              <span>NIMBUS</span>
+            </button>
+            <button
+              onClick={onToggleEagle}
+              className={`text-xs tracking-wider px-3 py-1 border transition-all duration-300 ${eagleVision
+                  ? "bg-foreground text-primary-foreground border-foreground"
+                  : "border-border hover:bg-secondary"
+                }`}
             >
               {eagleVision ? "◉ EAGLE VISION" : "○ EAGLE VISION"}
             </button>
-            <span className="text-xs text-muted-foreground">v2.0</span>
+            <span className="text-xs text-muted-foreground hidden sm:inline-block">v2.0</span>
           </div>
         </div>
 
@@ -48,11 +62,10 @@ const TacticalHeader = ({ activeSection, onNavigate, eagleVision, onToggleEagle 
               key={item.id}
               data-section={item.id}
               onClick={() => onNavigate(item.id)}
-              className={`px-3 py-1.5 text-xs tracking-widest transition-all duration-200 border ${
-                activeSection === item.id
+              className={`px-3 py-1.5 text-xs tracking-widest transition-all duration-200 border ${activeSection === item.id
                   ? "border-foreground bg-foreground text-primary-foreground"
                   : "border-transparent hover:border-border"
-              }`}
+                }`}
             >
               {item.label}
             </button>
