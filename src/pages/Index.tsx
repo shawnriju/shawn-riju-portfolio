@@ -9,6 +9,7 @@ import ContactSection from "@/components/ContactSection";
 import MobMeter from "@/components/MobMeter";
 import ScrollbarController from "@/components/ScrollbarController";
 import SmokeTransition from "@/components/SmokeTransition";
+import NimbusCursor from "@/components/NimbusCursor";
 
 const SECTIONS = ["about", "experience", "projects", "skills", "education", "contact"];
 
@@ -49,6 +50,7 @@ const Index = () => {
 
   return (
     <div className={`min-h-screen transition-all duration-500 ${eagleVision ? "eagle-vision" : ""}`}>
+      <NimbusCursor />
       <ScrollbarController />
       <SmokeTransition isActive={smokeActive} />
       <TacticalHeader

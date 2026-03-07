@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 const NAV_ITEMS = [
   { id: "about", label: "PROFILE" },
@@ -17,23 +16,7 @@ interface TacticalHeaderProps {
   onToggleEagle: () => void;
 }
 
-
 const TacticalHeader = ({ activeSection, onNavigate, eagleVision, onToggleEagle }: TacticalHeaderProps) => {
-  const [nimbusPos, setNimbusPos] = useState({ x: 0, y: 0 });
-  const navRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const activeEl = navRef.current?.querySelector(`[data-section="${activeSection}"]`);
-    if (activeEl) {
-      const rect = (activeEl as HTMLElement).getBoundingClientRect();
-      const parentRect = navRef.current!.getBoundingClientRect();
-      setNimbusPos({
-        x: rect.left - parentRect.left + rect.width / 2 - 14,
-        y: -24,
-      });
-    }
-  }, [activeSection]);
-
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-sm">
       <div className="max-w-6xl mx-auto px-4">
@@ -59,14 +42,7 @@ const TacticalHeader = ({ activeSection, onNavigate, eagleVision, onToggleEagle 
         </div>
 
         {/* Nav */}
-        <nav ref={navRef} className="relative flex items-center justify-center gap-1 py-2">
-          <motion.div
-            className="absolute"
-            animate={{ x: nimbusPos.x, y: nimbusPos.y }}
-            transition={{ type: "spring", stiffness: 300, damping: 25 }}
-          >
-            <NimbusCloud />
-          </motion.div>
+        <nav className="relative flex items-center justify-center gap-1 py-2">
           {NAV_ITEMS.map((item) => (
             <button
               key={item.id}
