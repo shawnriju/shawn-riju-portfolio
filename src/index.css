@@ -60,6 +60,7 @@
   * {
     @apply border-border;
     font-family: 'JetBrains Mono', monospace;
+    cursor: none !important;
   }
 
   body {
@@ -83,9 +84,11 @@
 ::-webkit-scrollbar {
   width: 8px;
 }
+
 ::-webkit-scrollbar-track {
   background: hsl(var(--background));
 }
+
 ::-webkit-scrollbar-thumb {
   background: hsl(var(--muted-foreground));
   transition: background 0.3s;
@@ -96,6 +99,7 @@
   filter: saturate(0.2) brightness(0.7);
   background: hsl(var(--eagle-blue)) !important;
 }
+
 .eagle-vision .eagle-glow {
   color: hsl(var(--eagle-gold)) !important;
   text-shadow: 0 0 8px hsl(var(--eagle-gold) / 0.8), 0 0 20px hsl(var(--eagle-gold) / 0.4);
@@ -103,47 +107,95 @@
 
 /* Smoke animation */
 @keyframes smoke-puff {
-  0% { opacity: 1; transform: scale(0.5); }
-  50% { opacity: 0.6; transform: scale(1.5); }
-  100% { opacity: 0; transform: scale(2.5); }
+  0% {
+    opacity: 1;
+    transform: scale(0.5);
+  }
+
+  50% {
+    opacity: 0.6;
+    transform: scale(1.5);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(2.5);
+  }
 }
+
 .smoke-particle {
   animation: smoke-puff 0.6s ease-out forwards;
 }
 
 /* Goal explosion */
 @keyframes goal-explode {
-  0% { transform: scale(0); opacity: 1; }
-  50% { transform: scale(1.5); opacity: 0.8; }
-  100% { transform: scale(3); opacity: 0; }
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.5);
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: scale(3);
+    opacity: 0;
+  }
 }
+
 .goal-explosion {
   animation: goal-explode 1s ease-out forwards;
 }
 
 /* Mob meter pulse */
 @keyframes mob-pulse {
-  0%, 100% { text-shadow: none; }
-  50% { text-shadow: 0 0 10px hsl(var(--accent)); }
+
+  0%,
+  100% {
+    text-shadow: none;
+  }
+
+  50% {
+    text-shadow: 0 0 10px hsl(var(--accent));
+  }
 }
+
 .mob-100 {
   animation: mob-pulse 0.5s ease-in-out 3;
 }
 
-/* Nimbus particle fade */
-@keyframes nimbus-particle {
-  0% { opacity: 0.6; transform: scale(1); }
-  100% { opacity: 0; transform: scale(2); }
+/* Nimbus glow pulse (idle state fallback) */
+@keyframes nimbus-glow-pulse {
+
+  0%,
+  100% {
+    filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.3));
+  }
+
+  50% {
+    filter: drop-shadow(0 0 14px rgba(255, 215, 0, 0.7));
+  }
 }
-.nimbus-particle {
-  animation: nimbus-particle 0.6s ease-out forwards;
+
+.nimbus-idle-pulse {
+  animation: nimbus-glow-pulse 2s ease-in-out infinite;
 }
 
 /* Section fade-in */
 @keyframes section-enter {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
+
 .section-enter {
   animation: section-enter 0.5s ease-out;
 }
