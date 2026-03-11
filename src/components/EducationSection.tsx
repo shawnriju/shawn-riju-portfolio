@@ -34,8 +34,6 @@ const commendations: Commendation[] = [
     description: "For impactful contributions to the Marketing team at Leeds University Union.",
     image: shiningStarImg,
     logId: "SHINING_STAR",
-    // Adding a scale-[1.15] zooms the image in by 15%, giving us extra horizontal room.
-    // We can then use translate-x to move it left or right! (-) moves the image left, (+) moves it right.
     imageClass: "object-[center_35%]",
   },
   {
