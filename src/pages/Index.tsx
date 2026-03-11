@@ -83,7 +83,7 @@ const Index = () => {
         <div className="w-full h-px bg-border my-4" />
         <SkillsSection eagleVision={eagleVision} />
         <div className="w-full h-px bg-border my-4" />
-        <EducationSection />
+        <EducationSection eagleVision={eagleVision} />
         <div className="w-full h-px bg-border my-4" />
         <ContactSection />
       </main>

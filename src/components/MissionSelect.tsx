@@ -1,51 +1,62 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-
-// Shuriken icon for bullet points
-const ShurikenIcon = () => (
-  <svg width="12" height="12" viewBox="0 0 12 12" className="shrink-0 mt-0.5">
-    <polygon
-      points="6,0 7.5,4.5 12,6 7.5,7.5 6,12 4.5,7.5 0,6 4.5,4.5"
-      fill="hsl(var(--foreground))"
-      opacity="0.6"
-    />
-    <circle cx="6" cy="6" r="1.5" fill="hsl(var(--background))" />
-  </svg>
-);
+import { Github } from "lucide-react";
 
 interface Mission {
   id: string;
   title: string;
   codename: string;
   status: string;
-  points: string[];
+  description: string;
   tech: string;
+  githubUrl: string;
 }
 
 const missions: Mission[] = [
   {
     id: "site-simplify",
-    title: "SiteSimplify",
+    title: "Site Simplify",
     codename: "WEB INTELLIGENCE",
     status: "COMPLETE",
-    points: [
-      "Developed an AI-Powered Web Intelligence Tool for interactive querying of website content using natural language.",
-      "Implemented Retrieval-Augmented Generation (RAG) using LangChain and OpenAI API with ChromaDB vector store.",
-      "Enabled real-time semantic search across scraped web content, improving relevance over keyword-based approaches.",
-    ],
-    tech: "Python, LangChain, Streamlit, BeautifulSoup, OpenAI API, ChromaDB",
+    description: "An AI-powered web application that allows users to input a website URL and interact with its content through a conversational interface. The application scrapes and processes website content, using **LangChain** to retrieve context and enable **OpenAI models** to generate relevant responses and simplify complex information. Built with **Python** and **Streamlit**, it demonstrates the use of **Retrieval-Augmented Generation (RAG)** to enable contextual question answering over web data.",
+    tech: "Python, Langchain, OpenAI API, Streamlit, ChromaDB, Beautiful Soup",
+    githubUrl: "https://github.com/shawnriju/site-simplify",
   },
   {
-    id: "vm-monitor",
-    title: "VM Monitor",
+    id: "digital-twin",
+    title: "Virtual Infrastructure Monitor",
     codename: "INFRA VISION",
     status: "COMPLETE",
-    points: [
-      "Designed and built a 3D visualization prototype of virtual machines for real-time infrastructure monitoring.",
-      "Integrated VM status data from VMware into Unity3D using the VMware REST API.",
-      "Created an interactive visual tool for monitoring performance, uptime, and resource usage.",
-    ],
-    tech: "Unity3D, VMware, VMware REST API, C#",
+    description: "A digital twin system developed as part of my MSc research project at the **University of Leeds**, exploring new ways to visualize and manage virtualized infrastructure. Built using **Unity** and **VMware**, the tool represents virtual machines as interactive **3D objects**, where attributes such as colour and size indicate operational status and memory allocation. The interface also provides controls for managing virtual machines directly within the visualization environment.",
+    tech: "Unity3D, C#, VMware Workstation, VWware Rest API",
+    githubUrl: "https://github.com/shawnriju/Digital-Twin-Visualization-of-Virtualized-Environment",
+  },
+  {
+    id: "career-crew",
+    title: "My Career Crew",
+    codename: "AGENTIC WORKFLOWS",
+    status: "COMPLETE",
+    description: "An AI-powered application built to support my own job search process while experimenting with **multi-agent AI workflows**. The system uses AI agents built with **CrewAI** and **LangChain** to analyze job descriptions, generate tailored resumes and cover letters, and evaluate resumes for ATS compatibility, suggesting improvements based on the provided job description. The goal of the project was to explore multi-agent workflows for automating job application tasks.",
+    tech: "Python, CrewAI, LangChain, Streamlit, OpenAI API",
+    githubUrl: "https://github.com/shawnriju/my-career-crew",
+  },
+  {
+    id: "webhook-repo",
+    title: "Webhook Repo",
+    codename: "EVENT LISTENER",
+    status: "COMPLETE",
+    description: "A small learning project built to understand how **GitHub webhooks** can capture repository activity in real time. Using **Python** and **Flask**, the application listens for webhook events such as commits, pushes, and pull requests, storing the event data in **MongoDB**. The captured activity is then displayed in a simple HTML interface, showing repository events ordered by the most recent changes.",
+    tech: "Python, Flask, MongoDB, GitHub Webhooks",
+    githubUrl: "https://github.com/shawnriju/webhook-repo",
+  },
+  {
+    id: "qed",
+    title: "Q.E.D.",
+    codename: "AR INVESTIGATION",
+    status: "COMPLETE",
+    description: "An augmented reality puzzle event created for Excel 2018  (Technical fest at Model Engineering College) The event was designed as a murder mystery investigation, where participants scanned real-world objects to reveal hidden clues through **AR**. The mobile application was built using **Unity3D** and **Vuforia**, combining storytelling with augmented reality to create an interactive event experience.",
+    tech: "Unity3D, Vuforia",
+    githubUrl: "https://github.com/shawnriju/Q.E.D1",
   },
 ];
 
@@ -67,8 +78,8 @@ const MissionSelect = ({ eagleVision }: { eagleVision: boolean }) => {
                 key={m.id}
                 onClick={() => setSelected(i)}
                 className={`w-full text-left px-4 py-3 border transition-all duration-200 ${selected === i
-                    ? eagleVision ? "bg-primary/10 border-primary" : "border-foreground bg-foreground text-primary-foreground"
-                    : "border-border hover:border-foreground/50"
+                  ? eagleVision ? "bg-primary/10 border-primary" : "border-foreground bg-foreground text-primary-foreground"
+                  : "border-border hover:border-foreground/50"
                   }`}
               >
                 <p className={`text-xs tracking-wider font-medium ${selected === i && eagleVision ? "eagle-glow text-primary" : ""}`}>{m.title}</p>
@@ -95,19 +106,33 @@ const MissionSelect = ({ eagleVision }: { eagleVision: boolean }) => {
                     <h3 className="text-sm font-semibold tracking-wider">{mission.title}</h3>
                     <p className="text-[10px] text-muted-foreground tracking-wider mt-0.5">CODENAME: {mission.codename}</p>
                   </div>
-                  <span className="text-[10px] px-2 py-0.5 border border-border text-muted-foreground">
-                    {mission.status}
-                  </span>
+                  <a
+                    href={mission.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`flex items-center gap-1.5 text-[10px] px-3 py-1.5 border transition-all duration-300 ${eagleVision
+                      ? "border-primary text-primary hover:bg-primary/20 eagle-glow"
+                      : "border-border text-foreground hover:bg-foreground hover:text-background"
+                      }`}
+                  >
+                    <Github size={12} />
+                    <span>[MISSION_FILES]</span>
+                  </a>
                 </div>
 
-                <div className="border-t border-border pt-4 space-y-3">
+                <div className="border-t border-border pt-4">
                   <p className="text-[10px] tracking-widest text-muted-foreground mb-3">BRIEFING</p>
-                  {mission.points.map((point, i) => (
-                    <div key={i} className="flex gap-2 text-xs leading-relaxed text-muted-foreground">
-                      <ShurikenIcon />
-                      <span>{point}</span>
-                    </div>
-                  ))}
+                  <p className="text-sm leading-relaxed text-foreground/90 whitespace-pre-wrap">
+                    {mission.description.split("**").map((part, index) =>
+                      index % 2 === 1 ? (
+                        <span key={index} className={`font-semibold transition-colors duration-300 ${eagleVision ? "eagle-glow text-primary" : "text-foreground"}`}>
+                          {part}
+                        </span>
+                      ) : (
+                        part
+                      )
+                    )}
+                  </p>
                 </div>
 
                 <div className="border-t border-border mt-4 pt-3">

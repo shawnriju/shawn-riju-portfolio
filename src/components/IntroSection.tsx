@@ -23,7 +23,7 @@ const IntroSection = ({ eagleVision }: { eagleVision: boolean }) => (
                     Software engineer with professional experience in backend development and data systems, primarily using{" "}
                     <span className={`transition-colors duration-300 ${eagleVision ? "text-primary eagle-glow font-medium" : ""}`}>C#, .NET, and SQL</span>.
                     Graduated with an MSc in{" "}
-                    <span className={`transition-colors duration-300 ${eagleVision ? "text-primary eagle-glow font-medium" : ""}`}>Advanced Computer Science (Cloud Computing)</span>, Distinction from the University of Leeds.
+                    <span className={`transition-colors duration-300 ${eagleVision ? "text-primary eagle-glow font-medium" : ""}`}>Advanced Computer Science (Cloud Computing)</span>, from the University of Leeds.
                 </p>
 
                 <div className="flex flex-col gap-6 max-w-xl mx-auto mt-12 w-full text-left">
