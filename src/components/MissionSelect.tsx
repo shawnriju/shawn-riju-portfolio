@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Github } from "lucide-react";
+import { StarBall } from "./StarBall";
 
 interface Mission {
   id: string;
@@ -120,8 +121,11 @@ const MissionSelect = ({ eagleVision }: { eagleVision: boolean }) => {
                   </a>
                 </div>
 
-                <div className="border-t border-border pt-4">
-                  <p className="text-[10px] tracking-widest text-muted-foreground mb-3">BRIEFING</p>
+                <div className="border-t border-border pt-4 relative">
+                  <div className="flex items-center justify-between mb-3">
+                    <p className="text-[10px] tracking-widest text-muted-foreground">BRIEFING</p>
+                    {mission.id === "digital-twin" && <StarBall number={5} className="absolute top-2 right-0" />}
+                  </div>
                   <p className="text-sm leading-relaxed text-foreground/90 whitespace-pre-wrap">
                     {mission.description.split("**").map((part, index) =>
                       index % 2 === 1 ? (

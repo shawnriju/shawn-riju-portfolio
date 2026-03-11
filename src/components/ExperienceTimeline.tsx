@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
+import { StarBall } from "./StarBall";
 
 // Log Pose compass icon (One Piece inspired)
 const LogPoseIcon = ({ active }: { active?: boolean }) => (
@@ -98,8 +99,9 @@ const TimelineItem = ({ entry, i, eagleVision }: { entry: TimelineEntry; i: numb
       >
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-1">
           <div>
-            <h3 className="text-sm font-semibold tracking-wider group-hover:text-primary transition-colors">
+            <h3 className="text-sm font-semibold tracking-wider group-hover:text-primary transition-colors flex items-center gap-2">
               {entry.title}
+              {i === 1 && <StarBall number={3} />}
             </h3>
             <p className="text-xs text-muted-foreground mt-0.5">{entry.org} — {entry.location}</p>
           </div>
@@ -134,6 +136,11 @@ const TimelineItem = ({ entry, i, eagleVision }: { entry: TimelineEntry; i: numb
                     )}
                   </p>
                 ))}
+                {i === 1 && (
+                  <div className="flex justify-end pt-2">
+                    <StarBall number={4} />
+                  </div>
+                )}
               </div>
               {entry.tech && (
                 <p className="text-xs mt-4 pt-3 border-t border-border/50 text-foreground/70">

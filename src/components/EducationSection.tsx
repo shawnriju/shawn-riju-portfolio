@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Award } from "lucide-react";
+import { StarBall } from "./StarBall";
 
 import shiningStarImg from "@/assets/achievements/shining-star.jpeg";
 import cateringAwardImg from "@/assets/achievements/catering-award.jpeg";
@@ -157,9 +158,12 @@ const EducationSection = ({ eagleVision }: { eagleVision: boolean }) => {
                   <X size={16} />
                 </button>
 
-                <div className="mb-4 pr-8">
-                  <p className="text-[10px] tracking-widest text-muted-foreground">SYSTEM_MSG</p>
-                  <h3 className={`text-sm font-semibold tracking-wider ${eagleVision ? "eagle-glow text-primary" : ""}`}>{activeCommendation.title}</h3>
+                <div className="mb-4 pr-8 flex items-center justify-between">
+                  <div>
+                    <p className="text-[10px] tracking-widest text-muted-foreground">SYSTEM_MSG</p>
+                    <h3 className={`text-sm font-semibold tracking-wider ${eagleVision ? "eagle-glow text-primary" : ""}`}>{activeCommendation.title}</h3>
+                  </div>
+                  {activeCommendation.title === "Shining Star Award" && <StarBall number={7} />}
                 </div>
 
                 <div className="relative border border-border bg-black/5 aspect-[4/3] overflow-hidden group">

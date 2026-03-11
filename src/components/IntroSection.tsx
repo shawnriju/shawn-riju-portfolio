@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { StarBall } from "./StarBall";
 
 const IntroSection = ({ eagleVision }: { eagleVision: boolean }) => (
     <section id="intro" className="py-20 section-enter">
@@ -19,11 +20,14 @@ const IntroSection = ({ eagleVision }: { eagleVision: boolean }) => (
 
                 <div className="w-24 h-px bg-border mx-auto mb-8" />
 
-                <p className="text-sm leading-relaxed text-muted-foreground max-w-xl mx-auto mb-10">
-                    Software engineer with professional experience in backend development and data systems, primarily using{" "}
-                    <span className={`transition-colors duration-300 ${eagleVision ? "text-primary eagle-glow font-medium" : ""}`}>C#, .NET, and SQL</span>.
-                    Graduated with an MSc in{" "}
-                    <span className={`transition-colors duration-300 ${eagleVision ? "text-primary eagle-glow font-medium" : ""}`}>Advanced Computer Science (Cloud Computing)</span>, from the University of Leeds.
+                <p className="text-sm leading-relaxed text-muted-foreground flex items-center justify-center flex-wrap gap-2 max-w-xl mx-auto mb-10">
+                    <span>
+                      Software engineer with professional experience in backend development and data systems, primarily using{" "}
+                      <span className={`transition-colors duration-300 ${eagleVision ? "text-primary eagle-glow font-medium" : ""}`}>C#, .NET, and SQL</span>.
+                      Graduated with an MSc in{" "}
+                      <span className={`transition-colors duration-300 ${eagleVision ? "text-primary eagle-glow font-medium" : ""}`}>Advanced Computer Science (Cloud Computing)</span>, from the University of Leeds.
+                    </span>
+                    <StarBall number={2} />
                 </p>
 
                 <div className="flex flex-col gap-6 max-w-xl mx-auto mt-12 w-full text-left">

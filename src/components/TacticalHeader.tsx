@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useProtocol } from "./ProtocolContext";
 
 const NAV_ITEMS = [
   { id: "intro", label: "PROFILE" },
@@ -14,34 +15,43 @@ interface TacticalHeaderProps {
   onNavigate: (id: string) => void;
   eagleVision: boolean;
   onToggleEagle: () => void;
-  nimbusActive: boolean;
-  onToggleNimbus: () => void;
 }
 
-const TacticalHeader = ({ activeSection, onNavigate, eagleVision, onToggleEagle, nimbusActive, onToggleNimbus }: TacticalHeaderProps) => {
+const TacticalHeader = ({ activeSection, onNavigate, eagleVision, onToggleEagle }: TacticalHeaderProps) => {
+  const { foundBalls } = useProtocol();
+  const isComplete = foundBalls.length === 7;
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-sm">
+    <header className="fixed top-0 left-0 right-0 z-[60] bg-background/90 backdrop-blur-sm">
       <div className="max-w-6xl mx-auto px-4">
         {/* Top bar */}
         <div className="flex items-center justify-between py-3 border-b border-border">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 relative">
             <span className="text-xs text-muted-foreground tracking-widest">SYS://</span>
-            <span className="text-sm font-semibold tracking-wider">SHAWN RIJU</span>
+            <span className="text-sm font-semibold tracking-wider mr-2">SHAWN RIJU</span>
+            {isComplete && (
+               <div className="group relative" title="[ QUEST_COMPLETE: SHENRON_TROPHY_ATTAINED ]">
+                 <motion.svg 
+                   initial={{ scale: 0, opacity: 0, rotateY: 180 }} 
+                   animate={{ scale: 1, opacity: 1, rotateY: 0 }}
+                   transition={{ type: "spring", stiffness: 200, damping: 15 }}
+                   className="w-3.5 h-3.5 drop-shadow-[0_0_6px_rgba(184,134,11,0.6)] relative z-10" 
+                   viewBox="-5 -5 110 110" fill="none"
+                 >
+                   {/* 3D Extrusion Backdrop */}
+                   <path d="M 10 20 H 90 L 30 80 H 90 L 80 95 H 0 L 60 35 H 0 Z" fill="#8B6508" transform="translate(6, 6)" />
+                   
+                   {/* Main Z Face */}
+                   <path d="M 10 20 H 90 L 30 80 H 90 L 80 95 H 0 L 60 35 H 0 Z" fill="#B8860B" stroke="#FFD700" strokeWidth="3" strokeLinejoin="miter" />
+                   
+                   {/* Highlights */}
+                   <path d="M 15 26 H 75" stroke="#FFF5CC" strokeWidth="2" opacity="0.6" strokeLinecap="round" />
+                   <path d="M 35 84 H 75" stroke="#FFF5CC" strokeWidth="2" opacity="0.6" strokeLinecap="round" />
+                 </motion.svg>
+               </div>
+            )}
           </div>
           <div className="flex items-center gap-4">
-            <button
-              onClick={onToggleNimbus}
-              className={`flex items-center gap-2 text-xs tracking-wider px-3 py-1 border transition-all duration-300 ${nimbusActive
-                ? eagleVision ? "bg-primary/10 border-primary text-primary eagle-glow" : "bg-foreground text-primary-foreground border-foreground"
-                : "border-border hover:bg-secondary"
-                }`}
-              title="Toggle Nimbus Cursor"
-            >
-              <div className={`w-4 h-4 rounded-full flex items-center justify-center ${nimbusActive ? "bg-[#FF8C00] shadow-[0_0_8px_#FFD700]" : "bg-muted"}`}>
-                <span className={`text-[8px] ${nimbusActive ? "text-[#FF0000]" : "text-muted-foreground"}`}>★</span>
-              </div>
-              <span>NIMBUS</span>
-            </button>
             <button
               onClick={onToggleEagle}
               className={`text-xs tracking-wider px-3 py-1 border transition-all duration-300 ${eagleVision

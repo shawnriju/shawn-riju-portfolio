@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { StarBall } from "./StarBall";
 
 interface SkillCategory {
   label: string;
@@ -26,13 +27,16 @@ const SkillsSection = ({ eagleVision }: { eagleVision: boolean }) => (
         {categories.map((cat, i) => (
           <motion.div
             key={cat.label}
-            className="nier-border p-4 bg-card"
+            className="nier-border p-4 bg-card relative"
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.4, delay: i * 0.05 }}
           >
-            <p className="text-[10px] tracking-widest text-muted-foreground mb-3">{cat.label}</p>
+            <div className="flex items-center justify-between mb-3">
+               <p className="text-[10px] tracking-widest text-muted-foreground">{cat.label}</p>
+               {i === 2 && <StarBall number={6} />}
+            </div>
             <div className="flex flex-wrap gap-1.5">
               {cat.items.map((item) => (
                 <span
