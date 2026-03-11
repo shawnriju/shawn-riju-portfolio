@@ -66,14 +66,13 @@ const MissionSelect = ({ eagleVision }: { eagleVision: boolean }) => {
               <button
                 key={m.id}
                 onClick={() => setSelected(i)}
-                className={`w-full text-left px-4 py-3 border transition-all duration-200 ${
-                  selected === i
-                    ? "border-foreground bg-foreground text-primary-foreground"
+                className={`w-full text-left px-4 py-3 border transition-all duration-200 ${selected === i
+                    ? eagleVision ? "bg-primary/10 border-primary" : "border-foreground bg-foreground text-primary-foreground"
                     : "border-border hover:border-foreground/50"
-                }`}
+                  }`}
               >
-                <p className="text-xs tracking-wider font-medium">{m.title}</p>
-                <p className={`text-[10px] mt-0.5 ${selected === i ? "text-primary-foreground/60" : "text-muted-foreground"}`}>
+                <p className={`text-xs tracking-wider font-medium ${selected === i && eagleVision ? "eagle-glow text-primary" : ""}`}>{m.title}</p>
+                <p className={`text-[10px] mt-0.5 ${selected === i ? (eagleVision ? "text-primary/70" : "text-primary-foreground/60") : "text-muted-foreground"}`}>
                   {m.codename}
                 </p>
               </button>

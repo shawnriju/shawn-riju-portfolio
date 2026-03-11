@@ -203,7 +203,6 @@ const NimbusCursor = () => {
         // Return to default resting angle gracefully (0)
         const currentAngle = pointerAngle.get();
         const diff = ((0 - currentAngle + 180) % 360) - 180;
-        // Optional: you can comment this out if you want it to stay pointing at the last thing it saw
         pointerAngle.set(currentAngle + diff);
       }
 

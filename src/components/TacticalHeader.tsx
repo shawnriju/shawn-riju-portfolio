@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 
 const NAV_ITEMS = [
-  { id: "about", label: "PROFILE" },
-  { id: "experience", label: "LOG" },
+  { id: "intro", label: "PROFILE" },
+  { id: "experience", label: "XP_LOG" },
   { id: "projects", label: "MISSIONS" },
   { id: "skills", label: "ARSENAL" },
   { id: "education", label: "ARCHIVES" },
@@ -32,8 +32,8 @@ const TacticalHeader = ({ activeSection, onNavigate, eagleVision, onToggleEagle,
             <button
               onClick={onToggleNimbus}
               className={`flex items-center gap-2 text-xs tracking-wider px-3 py-1 border transition-all duration-300 ${nimbusActive
-                  ? "bg-foreground text-primary-foreground border-foreground"
-                  : "border-border hover:bg-secondary"
+                ? eagleVision ? "bg-primary/10 border-primary text-primary eagle-glow" : "bg-foreground text-primary-foreground border-foreground"
+                : "border-border hover:bg-secondary"
                 }`}
               title="Toggle Nimbus Cursor"
             >
@@ -45,8 +45,8 @@ const TacticalHeader = ({ activeSection, onNavigate, eagleVision, onToggleEagle,
             <button
               onClick={onToggleEagle}
               className={`text-xs tracking-wider px-3 py-1 border transition-all duration-300 ${eagleVision
-                  ? "bg-foreground text-primary-foreground border-foreground"
-                  : "border-border hover:bg-secondary"
+                ? "bg-primary/10 border-primary text-primary eagle-glow"
+                : "border-border hover:bg-secondary"
                 }`}
             >
               {eagleVision ? "◉ EAGLE VISION" : "○ EAGLE VISION"}
@@ -63,8 +63,8 @@ const TacticalHeader = ({ activeSection, onNavigate, eagleVision, onToggleEagle,
               data-section={item.id}
               onClick={() => onNavigate(item.id)}
               className={`px-3 py-1.5 text-xs tracking-widest transition-all duration-200 border ${activeSection === item.id
-                  ? "border-foreground bg-foreground text-primary-foreground"
-                  : "border-transparent hover:border-border"
+                ? eagleVision ? "bg-primary/10 border-primary text-primary eagle-glow" : "border-foreground bg-foreground text-primary-foreground"
+                : "border-transparent hover:border-border"
                 }`}
             >
               {item.label}

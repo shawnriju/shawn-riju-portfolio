@@ -102,6 +102,29 @@
 /* Eagle Vision Mode */
 .eagle-vision {
   background: hsl(var(--eagle-blue)) !important;
+  /* Shift into a true dark-mode state to let the Eagle Vision glow pop perfectly */
+  --background: 210 50% 10%;
+  --foreground: 40 23% 92%;
+
+  --card: 210 40% 14%;
+  --card-foreground: 40 23% 92%;
+
+  --popover: 210 40% 14%;
+  --popover-foreground: 40 23% 92%;
+
+  --primary: 40 23% 92%;
+  --primary-foreground: 210 50% 10%;
+
+  --secondary: 210 40% 20%;
+  --secondary-foreground: 40 23% 92%;
+
+  --accent: 210 40% 25%;
+  --accent-foreground: 40 23% 92%;
+
+  --muted: 210 30% 25%;
+  --muted-foreground: 210 20% 70%;
+
+  --border: 210 40% 30%;
 }
 
 .eagle-vision-overlay {
@@ -109,8 +132,8 @@
   inset: 0;
   pointer-events: none;
   z-index: 45;
-  /* Below header (50) but above everything else */
-  backdrop-filter: saturate(0.2) brightness(0.7);
+  /* Less aggressive filter since the variables handle the darkness now */
+  backdrop-filter: saturate(0.6) brightness(0.9);
 }
 
 .eagle-vision .eagle-glow {

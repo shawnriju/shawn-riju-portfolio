@@ -1,4 +1,5 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
 
 // Log Pose compass icon (One Piece inspired)
 const LogPoseIcon = ({ active }: { active?: boolean }) => (
@@ -22,7 +23,7 @@ interface TimelineEntry {
   org: string;
   location: string;
   period: string;
-  points: string[];
+  paragraphs: string[];
   tech?: string;
 }
 
@@ -31,89 +32,138 @@ const entries: TimelineEntry[] = [
     title: "Marketing Project Coordinator",
     org: "Leeds University Union",
     location: "Leeds, United Kingdom",
-    period: "March 2025 – October 2025",
-    points: [
-      "Managed multiple marketing campaigns using Asana and built automated data workflows using Zapier.",
-      "Liaised with internal teams, external vendors, and student stakeholders across 5+ high-profile campus initiatives.",
-      "Developed comprehensive project briefs and event strategies, applying data insights to refine strategy and improve ROI.",
+    period: "March 2025 - October 2025",
+    paragraphs: [
+      "Worked with the marketing team at Leeds University Union to coordinate **campaigns and initiatives** across the organisation, with particular responsibility for the commercial side of the union. This involved collaborating with stakeholders from retail outlets, the campus merch shop, the on-campus supermarket, the student job agency, and the events team to ensure marketing activities aligned with their goals and timelines.",
+      "Managed campaign timelines and project tracking using **Asana**, while building small automation workflows with **Zapier** to streamline repetitive processes. I also used **SurveyMonkey** to design surveys and analyse post-campaign feedback to identify engagement trends and help inform future campaigns.",
+      "My contributions to the team were recognised with the Leeds University Union **“Shining Star” Award**, a peer-nominated recognition for impactful work within the marketing team."
     ],
   },
   {
     title: "Software Engineer",
     org: "Mindtree",
     location: "Bangalore, India",
-    period: "October 2020 – September 2022",
-    points: [
-      "Optimized T-SQL architecture for a US banking client, achieving a 50% improvement in query run times.",
-      "Engineered 20+ SQL Views and Tables for Tableau reporting, cutting data retrieval time by 40%.",
-      "Refactored C# backend services, increasing unit test coverage by 30% using xUnit.",
-      "Facilitated 6+ production deployments across QA, Pre-Prod, and Live environments.",
-      "Maintained a velocity of 8–10 story points per sprint in an Agile environment.",
+    period: "October 2020 — September 2022",
+    paragraphs: [
+      "Began my time at Mindtree by completing the **Orchard Training Program**, an intensive three-month program focused on core software development practices and enterprise technologies.",
+      "Following training, I joined a client team working on backend services and a reporting platform for a US banking client. My work involved developing and optimizing **T-SQL queries**, **database structures**, and backend services built with **C#** and **ASP.NET MVC**, improving reporting pipelines and overall query performance.",
+      "Working within an **Agile team**, I collaborated with developers, QA engineers, and stakeholders to deliver features, resolve production issues, and support deployments across multiple environments."
     ],
-    tech: "C#, ASP.NET MVC, Entity Framework, MSSQL Server, Angular, xUnit, JIRA, SSRS",
   },
   {
-    title: "International Welcome Team Assistant",
+    title: "Catering Assistant → Catering Supervisor (Part-time)",
+    org: "Old Bar, Leeds University Union",
+    location: "Leeds, United Kingdom",
+    period: "May 2023 — March 2025",
+    paragraphs: [
+      "Started as a Catering Assistant at Old Bar and was later promoted to **Catering Supervisor**, taking on responsibility for coordinating kitchen operations during busy service periods.",
+      "The role involved managing kitchen teams through **high-volume shifts**, ensuring orders were delivered efficiently while maintaining hygiene standards, proper kitchen practices, and strong customer satisfaction. The fast-paced environment required constant **coordination, communication, and quick problem-solving**.",
+      "My work and reliability in the role were recognised when I was voted **Best Catering Assistant of the Year** (2024)."
+    ],
+  },
+  {
+    title: "International Welcome Team Assistant (Part-time)",
     org: "University of Leeds",
     location: "Leeds, United Kingdom",
-    period: "June 2023 – June 2024",
-    points: [
-      "Led welcoming events for 100+ students, fostering inclusivity, cultural awareness, and community engagement.",
+    period: "June 2023 — June 2024",
+    paragraphs: [
+      "Supported the International Welcome Team in organising and running **orientation events** designed to help new international students settle into university life.",
+      "The role involved coordinating activities, assisting large groups of students during events, and helping create a welcoming environment for students from **diverse cultural and academic backgrounds**.",
+      "Working with students from many different countries helped strengthen my **communication, coordination, and people-facing skills**, while also improving my cultural awareness and ability to work effectively in diverse environments."
     ],
   },
 ];
+
+const TimelineItem = ({ entry, i, eagleVision }: { entry: TimelineEntry; i: number; eagleVision: boolean }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <motion.div
+      className="relative pl-14 pb-12 last:pb-0"
+      initial={{ opacity: 0, x: -20 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay: i * 0.15 }}
+    >
+      {/* Log Pose node */}
+      <div className="absolute left-0 top-0 -translate-x-[0px]">
+        <LogPoseIcon active={i === 0} />
+      </div>
+
+      <div
+        className="nier-border p-5 bg-card cursor-pointer group hover:bg-secondary/20 transition-colors"
+        onClick={() => setIsOpen(!isOpen)}
+        role="button"
+        tabIndex={0}
+      >
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-1">
+          <div>
+            <h3 className="text-sm font-semibold tracking-wider group-hover:text-primary transition-colors">
+              {entry.title}
+            </h3>
+            <p className="text-xs text-muted-foreground mt-0.5">{entry.org} — {entry.location}</p>
+          </div>
+          <div className="flex flex-col sm:items-end mt-2 sm:mt-0">
+            <span className="text-xs text-muted-foreground shrink-0">{entry.period}</span>
+            <span className="text-[10px] text-muted-foreground mt-1 opacity-50 tracking-widest uppercase hidden sm:block">
+              {isOpen ? "[- COLLAPSE]" : "[+ EXPAND UNIT ENTRY]"}
+            </span>
+          </div>
+        </div>
+
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              className="overflow-hidden"
+            >
+              <div className="space-y-3 mt-4 pt-2 border-t border-border/30">
+                {entry.paragraphs.map((paragraph, j) => (
+                  <p key={j} className="text-sm leading-relaxed text-foreground/90">
+                    {paragraph.split("**").map((part, index) =>
+                      index % 2 === 1 ? (
+                        <span key={index} className={`font-semibold transition-colors duration-300 ${eagleVision ? "eagle-glow text-primary" : "text-foreground"}`}>
+                          {part}
+                        </span>
+                      ) : (
+                        part
+                      )
+                    )}
+                  </p>
+                ))}
+              </div>
+              {entry.tech && (
+                <p className="text-xs mt-4 pt-3 border-t border-border/50 text-foreground/70">
+                  <span className="text-muted-foreground">Tech: </span>
+                  {entry.tech.split(", ").map((t, k) => (
+                    <span key={k} className={eagleVision ? "eagle-glow text-foreground" : "text-foreground"}>{t}{k < entry.tech!.split(", ").length - 1 ? ", " : ""}</span>
+                  ))}
+                </p>
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </motion.div>
+  );
+};
 
 const ExperienceTimeline = ({ eagleVision }: { eagleVision: boolean }) => {
   return (
     <section id="experience" className="py-20">
       <div className="max-w-4xl mx-auto px-4">
-        <p className="text-xs tracking-[0.3em] text-muted-foreground mb-2 text-center">THE GRAND LINE</p>
-        <h2 className="text-2xl font-light tracking-wider text-center mb-12">VOYAGE LOG</h2>
+        <p className="text-xs tracking-[0.3em] text-muted-foreground mb-2 text-center">// DATA_LOG: THE GRAND LINE VOYAGE</p>
+        <h2 className="text-2xl font-light tracking-wider text-center mb-12">EXPERIENCE</h2>
 
         <div className="relative">
           {/* Vertical line */}
           <div className="absolute left-4 top-0 bottom-0 w-px bg-border" />
 
           {entries.map((entry, i) => (
-            <motion.div
-              key={i}
-              className="relative pl-14 pb-12 last:pb-0"
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.15 }}
-            >
-              {/* Log Pose node */}
-              <div className="absolute left-0 top-0 -translate-x-[0px]">
-                <LogPoseIcon active={i === 0} />
-              </div>
-
-              <div className="nier-border p-5 bg-card">
-                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-3">
-                  <div>
-                    <h3 className="text-sm font-semibold tracking-wider">{entry.title}</h3>
-                    <p className="text-xs text-muted-foreground mt-0.5">{entry.org} — {entry.location}</p>
-                  </div>
-                  <span className="text-xs text-muted-foreground mt-1 sm:mt-0 shrink-0">{entry.period}</span>
-                </div>
-                <ul className="space-y-2">
-                  {entry.points.map((point, j) => (
-                    <li key={j} className="text-xs leading-relaxed text-muted-foreground flex gap-2">
-                      <span className="text-foreground shrink-0 mt-0.5">▸</span>
-                      <span>{point}</span>
-                    </li>
-                  ))}
-                </ul>
-                {entry.tech && (
-                  <p className="text-xs mt-3 pt-3 border-t border-border text-muted-foreground">
-                    <span className="text-foreground">Tech: </span>
-                    {entry.tech.split(", ").map((t, k) => (
-                      <span key={k} className={eagleVision ? "eagle-glow" : ""}>{t}{k < entry.tech!.split(", ").length - 1 ? ", " : ""}</span>
-                    ))}
-                  </p>
-                )}
-              </div>
-            </motion.div>
+            <TimelineItem key={i} entry={entry} i={i} eagleVision={eagleVision} />
           ))}
         </div>
       </div>

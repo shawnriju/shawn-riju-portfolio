@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 import TacticalHeader from "@/components/TacticalHeader";
-import AboutSection from "@/components/AboutSection";
+import IntroSection from "@/components/IntroSection";
 import ExperienceTimeline from "@/components/ExperienceTimeline";
 import MissionSelect from "@/components/MissionSelect";
 import SkillsSection from "@/components/SkillsSection";
@@ -11,10 +11,10 @@ import ScrollbarController from "@/components/ScrollbarController";
 import SmokeTransition from "@/components/SmokeTransition";
 import NimbusCursor from "@/components/NimbusCursor";
 
-const SECTIONS = ["about", "experience", "projects", "skills", "education", "contact"];
+const SECTIONS = ["intro", "experience", "projects", "skills", "education", "contact"];
 
 const Index = () => {
-  const [activeSection, setActiveSection] = useState("about");
+  const [activeSection, setActiveSection] = useState("intro");
   const [eagleVision, setEagleVision] = useState(false);
   const [smokeActive, setSmokeActive] = useState(false);
   const [nimbusActive, setNimbusActive] = useState(false);
@@ -59,7 +59,7 @@ const Index = () => {
   }, [nimbusActive]);
 
   return (
-    <div className={`min-h-screen transition-colors duration-500 ${eagleVision ? "eagle-vision" : ""}`}>
+    <div className={`min-h-screen text-foreground transition-colors duration-500 ${eagleVision ? "eagle-vision" : ""}`}>
       <div className={`eagle-vision-overlay transition-all duration-500 ${eagleVision ? "opacity-100" : "opacity-0 pointer-events-none"}`} aria-hidden="true" />
       {nimbusActive && <NimbusCursor />}
       <ScrollbarController />
@@ -75,7 +75,7 @@ const Index = () => {
       <MobMeter />
 
       <main className="pt-24 pb-16 max-w-6xl mx-auto px-4">
-        <AboutSection eagleVision={eagleVision} />
+        <IntroSection eagleVision={eagleVision} />
         <div className="w-full h-px bg-border my-4" />
         <ExperienceTimeline eagleVision={eagleVision} />
         <div className="w-full h-px bg-border my-4" />
