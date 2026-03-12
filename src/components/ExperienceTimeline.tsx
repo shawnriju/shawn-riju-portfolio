@@ -107,9 +107,6 @@ const TimelineItem = ({ entry, i, eagleVision }: { entry: TimelineEntry; i: numb
           </div>
           <div className="flex flex-col sm:items-end mt-2 sm:mt-0">
             <span className="text-xs text-muted-foreground shrink-0">{entry.period}</span>
-            <span className="text-[10px] text-muted-foreground mt-1 opacity-50 tracking-widest uppercase hidden sm:block">
-              {isOpen ? "[- COLLAPSE]" : "[+ EXPAND UNIT ENTRY]"}
-            </span>
           </div>
         </div>
 
@@ -153,6 +150,37 @@ const TimelineItem = ({ entry, i, eagleVision }: { entry: TimelineEntry; i: numb
             </motion.div>
           )}
         </AnimatePresence>
+
+        {!isOpen && (
+          <motion.div
+            className="flex justify-center items-center w-full -mb-2 mt-1 h-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <div className="flex items-center gap-1 text-muted-foreground/60">
+              {[0, 1, 2].map((i) => (
+                <motion.span
+                  key={i}
+                  className="text-[8px]"
+                  animate={{
+                    y: [0, 2, 3, 2, 0],
+                    opacity: [0.3, 0.8, 1, 0.8, 0.3]
+                  }}
+                  transition={{
+                    duration: 1.2,
+                    repeat: Infinity,
+                    delay: i * 0.15,
+                    ease: "easeInOut"
+                  }}
+                >
+                  ▼
+                </motion.span>
+              ))}
+            </div>
+          </motion.div>
+        )}
+
       </div>
     </motion.div>
   );

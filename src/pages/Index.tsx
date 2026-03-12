@@ -20,7 +20,7 @@ const SECTIONS = ["intro", "experience", "projects", "skills", "education", "con
 const Index = () => {
   const [activeSection, setActiveSection] = useState("intro");
   const [eagleVision, setEagleVision] = useState(false);
-  const [smokeActive, setSmokeActive] = useState(false);
+  // const [smokeActive, setSmokeActive] = useState(false);
   const { protocolActive, toggleProtocol, foundBalls, tutorialDismissed } = useProtocol();
 
   const isComplete = foundBalls.length === 7;
@@ -28,12 +28,8 @@ const Index = () => {
   const showTutorial = protocolActive && !tutorialDismissed;
 
   const handleNavigate = useCallback((id: string) => {
-    setSmokeActive(true);
-    setTimeout(() => {
-      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-      setActiveSection(id);
-      setTimeout(() => setSmokeActive(false), 400);
-    }, 200);
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    setActiveSection(id);
   }, []);
 
   // Track active section on scroll
@@ -72,7 +68,7 @@ const Index = () => {
       <div className={`eagle-vision-overlay transition-all duration-500 ${eagleVision ? "opacity-100" : "opacity-0 pointer-events-none"}`} aria-hidden="true" />
       {nimbusCursorActive && <NimbusCursor />}
       <ScrollbarController />
-      <SmokeTransition isActive={smokeActive} />
+      {/* <SmokeTransition isActive={false} /> */}
       <TacticalHeader
         activeSection={activeSection}
         onNavigate={handleNavigate}

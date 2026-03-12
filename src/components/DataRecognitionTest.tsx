@@ -13,7 +13,8 @@ const OPTIONS: QuizOption[] = [
   { id: "dbz", label: "Dragon Ball", correct: true },
   { id: "mob", label: "Mob Psycho 100", correct: true },
   { id: "op", label: "One Piece", correct: true },
-  { id: "naruto", label: "Naruto", correct: true },
+  { id: "naruto", label: "Naruto", correct: false },
+  { id: "assasins", label: "Assasins Creed", correct: true },
   { id: "paladins", label: "Paladins", correct: false },
   { id: "opm", label: "One Punch Man", correct: false },
   { id: "cyberpunk", label: "Cyberpunk 2077", correct: false },
@@ -149,9 +150,9 @@ const PsychicExplosion = ({ onComplete }: { onComplete: () => void }) => {
   );
 };
 
-/* ═══════════════════════════════════════════════════════════════════
-   MAIN QUIZ MODAL
-   ═══════════════════════════════════════════════════════════════════ */
+
+//MAIN QUIZ MODAL
+
 export const DataRecognitionTest = ({ onClose }: { onClose: () => void }) => {
   const { unlockMobTrophy } = useProtocol();
   const [selected, setSelected] = useState<string[]>([]);
