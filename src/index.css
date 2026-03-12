@@ -235,3 +235,73 @@
 .section-enter {
   animation: section-enter 0.5s ease-out;
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   MOB ???% MINI-GAME STYLES
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Glitch jitter on the ???% text */
+@keyframes mob-glitch {
+  0%   { transform: translate(0); }
+  20%  { transform: translate(-2px, 1px); }
+  40%  { transform: translate(-1px, -2px); }
+  60%  { transform: translate(2px, 1px); }
+  80%  { transform: translate(1px, -1px); }
+  100% { transform: translate(0); }
+}
+
+.mob-glitch-text {
+  color: #a855f7 !important;
+  text-shadow:
+    2px 0 #fff,
+    -2px 0 #a855f7,
+    0 0 12px rgba(168, 85, 247, 0.8),
+    0 0 24px rgba(168, 85, 247, 0.4);
+  animation: mob-glitch 0.15s cubic-bezier(.25, .46, .45, .94) infinite;
+}
+
+/* Purple / white pulsating glow on the Mob meter box */
+@keyframes mob-trigger-pulse {
+  0%, 100% {
+    box-shadow: 0 0 8px rgba(168, 85, 247, 0.4), 0 0 16px rgba(255, 255, 255, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.7), 0 0 40px rgba(255, 255, 255, 0.3);
+  }
+}
+
+.mob-trigger-glow {
+  animation: mob-trigger-pulse 0.8s ease-in-out infinite;
+  border-color: #a855f7 !important;
+  outline-color: #a855f7 !important;
+}
+
+/* Static noise for the explosion overlay */
+@keyframes noise-shift {
+  0%   { background-position: 0 0; }
+  25%  { background-position: 50% 50%; }
+  50%  { background-position: 10% 80%; }
+  75%  { background-position: 80% 20%; }
+  100% { background-position: 0 0; }
+}
+
+.mob-static-noise {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+  animation: noise-shift 0.08s steps(5, end) infinite;
+}
+
+/* Purple trophy glow in header */
+@keyframes mob-trophy-pulse {
+  0%, 100% {
+    text-shadow: 0 0 5px #a855f7, 0 0 10px #a855f7;
+  }
+  50% {
+    text-shadow: 0 0 8px #a855f7, 0 0 18px #a855f7, 0 0 30px rgba(168, 85, 247, 0.4);
+  }
+}
+
+.mob-trophy-glow {
+  color: #a855f7;
+  animation: mob-trophy-pulse 2s ease-in-out infinite;
+}

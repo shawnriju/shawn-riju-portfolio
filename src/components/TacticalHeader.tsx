@@ -18,7 +18,7 @@ interface TacticalHeaderProps {
 }
 
 const TacticalHeader = ({ activeSection, onNavigate, eagleVision, onToggleEagle }: TacticalHeaderProps) => {
-  const { foundBalls } = useProtocol();
+  const { foundBalls, hasMobTrophy } = useProtocol();
   const isComplete = foundBalls.length === 7;
 
   return (
@@ -30,25 +30,41 @@ const TacticalHeader = ({ activeSection, onNavigate, eagleVision, onToggleEagle 
             <span className="text-xs text-muted-foreground tracking-widest">SYS://</span>
             <span className="text-sm font-semibold tracking-wider mr-2">SHAWN RIJU</span>
             {isComplete && (
-               <div className="group relative" title="[ QUEST_COMPLETE: SHENRON_TROPHY_ATTAINED ]">
-                 <motion.svg 
-                   initial={{ scale: 0, opacity: 0, rotateY: 180 }} 
-                   animate={{ scale: 1, opacity: 1, rotateY: 0 }}
-                   transition={{ type: "spring", stiffness: 200, damping: 15 }}
-                   className="w-3.5 h-3.5 drop-shadow-[0_0_6px_rgba(184,134,11,0.6)] relative z-10" 
-                   viewBox="-5 -5 110 110" fill="none"
-                 >
-                   {/* 3D Extrusion Backdrop */}
-                   <path d="M 10 20 H 90 L 30 80 H 90 L 80 95 H 0 L 60 35 H 0 Z" fill="#8B6508" transform="translate(6, 6)" />
-                   
-                   {/* Main Z Face */}
-                   <path d="M 10 20 H 90 L 30 80 H 90 L 80 95 H 0 L 60 35 H 0 Z" fill="#B8860B" stroke="#FFD700" strokeWidth="3" strokeLinejoin="miter" />
-                   
-                   {/* Highlights */}
-                   <path d="M 15 26 H 75" stroke="#FFF5CC" strokeWidth="2" opacity="0.6" strokeLinecap="round" />
-                   <path d="M 35 84 H 75" stroke="#FFF5CC" strokeWidth="2" opacity="0.6" strokeLinecap="round" />
-                 </motion.svg>
-               </div>
+              <div className="group relative" title="[ QUEST_COMPLETE: SHENRON_TROPHY ]">
+                <motion.svg
+                  initial={{ scale: 0, opacity: 0, rotateY: 180 }}
+                  animate={{ scale: 1, opacity: 1, rotateY: 0 }}
+                  transition={{ type: "spring", stiffness: 200, damping: 15 }}
+                  className="w-3.5 h-3.5 drop-shadow-[0_0_6px_rgba(184,134,11,0.6)] relative z-10"
+                  viewBox="-5 -5 110 110" fill="none"
+                >
+                  {/* 3D Extrusion Backdrop */}
+                  <path d="M 10 20 H 90 L 30 80 H 90 L 80 95 H 0 L 60 35 H 0 Z" fill="#8B6508" transform="translate(6, 6)" />
+
+                  {/* Main Z Face */}
+                  <path d="M 10 20 H 90 L 30 80 H 90 L 80 95 H 0 L 60 35 H 0 Z" fill="#B8860B" stroke="#FFD700" strokeWidth="3" strokeLinejoin="miter" />
+
+                  {/* Highlights */}
+                  <path d="M 15 26 H 75" stroke="#FFF5CC" strokeWidth="2" opacity="0.6" strokeLinecap="round" />
+                  <path d="M 35 84 H 75" stroke="#FFF5CC" strokeWidth="2" opacity="0.6" strokeLinecap="round" />
+                </motion.svg>
+              </div>
+            )}
+            {hasMobTrophy && (
+              <div className="group relative" title="[ QUEST_COMPLETE: MOB_PSYCHO_TROPHY ]">
+                <motion.span
+                  initial={{ scale: 0, opacity: 0, x: -20, y: 40 }}
+                  animate={{ scale: 1, opacity: 1, x: 0, y: 0 }}
+                  transition={{ type: "spring", stiffness: 250, damping: 18 }}
+                  className="inline-block text-sm font-black italic relative z-10 mob-trophy-glow"
+                  style={{
+                    fontFamily: "'Impact', 'Arial Black', sans-serif",
+                    transform: "skewX(-8deg)",
+                  }}
+                >
+                  ?
+                </motion.span>
+              </div>
             )}
           </div>
           <div className="flex items-center gap-4">
@@ -66,7 +82,7 @@ const TacticalHeader = ({ activeSection, onNavigate, eagleVision, onToggleEagle 
         </div>
 
         {/* Nav */}
-        <nav className="relative flex items-center justify-center gap-1 py-2">
+        <nav className="relative flex flex-wrap items-center justify-center gap-1 py-2">
           {NAV_ITEMS.map((item) => (
             <button
               key={item.id}

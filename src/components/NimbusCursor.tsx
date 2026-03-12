@@ -77,6 +77,10 @@ const NimbusCursor = () => {
   // Bobbing offset (continuously animated)
   const bobY = useMotionValue(0);
 
+  // Ki focal dot state
+  const kiFocalScale = useSpring(1, { damping: 20, stiffness: 300 });
+  const kiFocalOpacity = useSpring(0.85, { damping: 15, stiffness: 200 });
+
   // Idle state controls
   const idleScale = useMotionValue(1);
   const idleGlow = useMotionValue(0.6);
@@ -238,6 +242,17 @@ const NimbusCursor = () => {
     bobY.set(Math.sin(t * BOB_FREQUENCY) * BOB_AMPLITUDE);
   });
 
+  // React to hover: brighten + scale the focal dot on interactive elements
+  useEffect(() => {
+    if (isHovering) {
+      kiFocalScale.set(1.6);
+      kiFocalOpacity.set(1);
+    } else {
+      kiFocalScale.set(1);
+      kiFocalOpacity.set(0.85);
+    }
+  }, [isHovering, kiFocalScale, kiFocalOpacity]);
+
   // Composite Y from raw mouse + bob (for zero lag main cloud)
   const compositeY = useTransform(
     [mouseY, bobY],
@@ -253,6 +268,7 @@ const NimbusCursor = () => {
       className="pointer-events-none fixed inset-0"
       style={{ zIndex: 9999 }}
     >
+
       {/* Spark Trail */}
       {sparks.map((spark) => (
         <motion.div
@@ -475,6 +491,26 @@ const NimbusCursor = () => {
           </g>
         </svg>
       </motion.div>
+
+      {/* Ki Focal Dot — the true click hotspot, rendered on top of the cloud */}
+      <motion.div
+        style={{
+          position: "absolute",
+          left: mouseX,
+          top: mouseY,
+          x: "-50%",
+          y: "-50%",
+          width: 6,
+          height: 6,
+          borderRadius: "50%",
+          background: "radial-gradient(circle, #FFF 40%, #FFD700 100%)",
+          scale: kiFocalScale,
+          opacity: kiFocalOpacity,
+          boxShadow: "0 0 6px 2px rgba(255, 215, 0, 0.7), 0 0 12px 4px rgba(255, 140, 0, 0.4)",
+          zIndex: 10,
+          willChange: "transform, opacity",
+        }}
+      />
     </motion.div>
   );
 };

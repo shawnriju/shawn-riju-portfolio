@@ -7,6 +7,8 @@ interface ProtocolContextType {
   findBall: (ballNumber: number) => void;
   summoning: boolean;
   tutorialDismissed: boolean;
+  hasMobTrophy: boolean;
+  unlockMobTrophy: () => void;
 }
 
 const ProtocolContext = createContext<ProtocolContextType | undefined>(undefined);
@@ -16,6 +18,7 @@ export const ProtocolProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const [foundBalls, setFoundBalls] = useState<number[]>([]);
   const [summoning, setSummoning] = useState(false);
   const [tutorialDismissed, setTutorialDismissed] = useState(false);
+  const [hasMobTrophy, setHasMobTrophy] = useState(false);
 
   const toggleProtocol = useCallback(() => {
     setProtocolActive(prev => !prev);
@@ -26,21 +29,25 @@ export const ProtocolProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     setFoundBalls(prev => {
       if (prev.includes(ballNumber)) return prev;
       const next = [...prev, ballNumber];
-      
+
       if (ballNumber === 1) {
         setTutorialDismissed(true);
       }
 
       if (next.length === 7) {
         setSummoning(true);
-        setTimeout(() => setSummoning(false), 4500); // 4.5 seconds for summoning sequence
+        setTimeout(() => setSummoning(false), 3500); // 3.5 seconds for summoning sequence
       }
       return next;
     });
   }, [protocolActive]);
 
+  const unlockMobTrophy = useCallback(() => {
+    setHasMobTrophy(true);
+  }, []);
+
   return (
-    <ProtocolContext.Provider value={{ protocolActive, toggleProtocol, foundBalls, findBall, summoning, tutorialDismissed }}>
+    <ProtocolContext.Provider value={{ protocolActive, toggleProtocol, foundBalls, findBall, summoning, tutorialDismissed, hasMobTrophy, unlockMobTrophy }}>
       {children}
     </ProtocolContext.Provider>
   );
