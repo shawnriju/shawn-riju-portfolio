@@ -30,17 +30,6 @@ interface TimelineEntry {
 
 const entries: TimelineEntry[] = [
   {
-    title: "Marketing Project Coordinator",
-    org: "Leeds University Union",
-    location: "Leeds, United Kingdom",
-    period: "March 2025 - October 2025",
-    paragraphs: [
-      "Worked with the marketing team at Leeds University Union to coordinate **campaigns and initiatives** across the organisation, with particular responsibility for the commercial side of the union. This involved collaborating with stakeholders from retail outlets, the campus merch shop, the on-campus supermarket, the student job agency, and the events team to ensure marketing activities aligned with their goals and timelines.",
-      "Managed campaign timelines and project tracking using **Asana**, while building small automation workflows with **Zapier** to streamline repetitive processes. I also used **SurveyMonkey** to design surveys and analyse post-campaign feedback to identify engagement trends and help inform future campaigns.",
-      "My contributions to the team were recognised with the Leeds University Union **“Shining Star” Award**, a peer-nominated recognition for impactful work within the marketing team."
-    ],
-  },
-  {
     title: "Software Engineer",
     org: "Mindtree",
     location: "Bangalore, India",
@@ -49,6 +38,17 @@ const entries: TimelineEntry[] = [
       "Began my time at Mindtree by completing the **Orchard Training Program**, an intensive three-month program focused on core software development practices and enterprise technologies.",
       "Following training, I joined a client team working on backend services and a reporting platform for a US banking client. My work involved developing and optimizing **T-SQL queries**, **database structures**, and backend services built with **C#** and **ASP.NET MVC**, improving reporting pipelines and overall query performance.",
       "Working within an **Agile team**, I collaborated with developers, QA engineers, and stakeholders to deliver features, resolve production issues, and support deployments across multiple environments."
+    ],
+  },
+  {
+    title: "Digital Projects Coordinator — Communications & Marketing",
+    org: "Leeds University Union",
+    location: "Leeds, United Kingdom",
+    period: "March 2025 - October 2025",
+    paragraphs: [
+      "Worked within the MarComms team at Leeds University Union to coordinate digital campaigns and projects across the organisation. As part of this role, I collaborated with stakeholders from retail outlets, the student job agency, events teams, and internal IT staff to deliver initiatives across multiple digital platforms.",
+      "This involved working with the IT team during the planning and revamp of the student job agency’s web portal, **helping improve accessibility** while keeping the design aligned with brand guidelines. I built surveys using **SurveyMonkey** and automated parts of the feedback workflow with **Zapier**, and also helped non-technical colleagues extract and adapt **HTML snippets** for sponsored content used in **Mailchimp newsletters**.",
+      "My contributions to the team were recognised with the Leeds University Union **Shining Star** Award, a peer-nominated recognition for impactful work within the marketing team."
     ],
   },
   {
@@ -101,7 +101,7 @@ const TimelineItem = ({ entry, i, eagleVision }: { entry: TimelineEntry; i: numb
           <div>
             <h3 className="text-sm font-semibold tracking-wider group-hover:text-primary transition-colors flex items-center gap-2">
               {entry.title}
-              {i === 1 && <StarBall number={3} />}
+              {entry.title.includes("Software Engineer") && <StarBall number={3} />}
             </h3>
             <p className="text-xs text-muted-foreground mt-0.5">{entry.org} — {entry.location}</p>
           </div>
@@ -133,7 +133,7 @@ const TimelineItem = ({ entry, i, eagleVision }: { entry: TimelineEntry; i: numb
                     )}
                   </p>
                 ))}
-                {i === 1 && (
+                {entry.title.includes("Software Engineer") && (
                   <div className="flex justify-end pt-2">
                     <StarBall number={4} />
                   </div>
@@ -197,8 +197,20 @@ const ExperienceTimeline = ({ eagleVision }: { eagleVision: boolean }) => {
           {/* Vertical line */}
           <div className="absolute left-4 top-0 bottom-0 w-px bg-border" />
 
-          {entries.map((entry, i) => (
+          {/* Technical Experience Section */}
+          <div className="mb-8 pl-14">
+            <h3 className="text-xs font-medium tracking-[0.2em] text-muted-foreground uppercase">// Technical Experience</h3>
+          </div>
+          {entries.slice(0, 2).map((entry, i) => (
             <TimelineItem key={i} entry={entry} i={i} eagleVision={eagleVision} />
+          ))}
+
+          {/* Additional Professional Experience Section */}
+          <div className="mt-0 mb-8 pl-14">
+            <h3 className="text-xs font-medium tracking-[0.2em] text-muted-foreground uppercase">// Additional Professional Experience</h3>
+          </div>
+          {entries.slice(2).map((entry, i) => (
+            <TimelineItem key={i + 2} entry={entry} i={i + 2} eagleVision={eagleVision} />
           ))}
         </div>
       </div>

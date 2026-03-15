@@ -69,7 +69,7 @@ const MissionSelect = ({ eagleVision }: { eagleVision: boolean }) => {
     <section id="projects" className="py-20">
       <div className="max-w-4xl mx-auto px-4">
         <p className="text-xs tracking-[0.3em] text-muted-foreground mb-2 text-center">MISSION LOGS</p>
-        <h2 className="text-2xl font-light tracking-wider text-center mb-12">SELECT OPERATION</h2>
+        <h2 className="text-2xl font-light tracking-wider text-center mb-12">SELECT PROJECT</h2>
 
         <div className="flex flex-col md:flex-row gap-6">
           {/* Mission list */}
@@ -117,7 +117,7 @@ const MissionSelect = ({ eagleVision }: { eagleVision: boolean }) => {
                       }`}
                   >
                     <Github size={12} />
-                    <span>[MISSION_FILES]</span>
+                    <span>[PROJECT_FILES]</span>
                   </a>
                 </div>
 
