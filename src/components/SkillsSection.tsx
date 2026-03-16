@@ -34,16 +34,15 @@ const SkillsSection = ({ eagleVision }: { eagleVision: boolean }) => (
             transition={{ duration: 0.4, delay: i * 0.05 }}
           >
             <div className="flex items-center justify-between mb-3">
-               <p className="text-[10px] tracking-widest text-muted-foreground">{cat.label}</p>
-               {i === 2 && <StarBall number={6} />}
+              <p className="text-[10px] tracking-widest text-muted-foreground">{cat.label}</p>
+              {i === 2 && <StarBall number={6} />}
             </div>
             <div className="flex flex-wrap gap-1.5">
               {cat.items.map((item) => (
                 <span
                   key={item}
-                  className={`text-xs px-2 py-0.5 border border-border transition-all duration-300 ${
-                    eagleVision ? "eagle-glow" : ""
-                  }`}
+                  className={`text-xs px-2 py-0.5 border border-border transition-all duration-300 ${eagleVision ? "eagle-glow" : ""
+                    }`}
                 >
                   {item}
                 </span>

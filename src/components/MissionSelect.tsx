@@ -91,8 +91,7 @@ const MissionSelect = ({ eagleVision }: { eagleVision: boolean }) => {
             ))}
           </div>
 
-          {/* Mission briefing */}
-          <div className="md:w-2/3">
+          <div className="md:w-2/3 min-h-[500px]">
             <AnimatePresence mode="wait">
               <motion.div
                 key={mission.id}

@@ -28,7 +28,7 @@ const Index = () => {
   const showTutorial = protocolActive && !tutorialDismissed;
 
   const handleNavigate = useCallback((id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    document.getElementById(id)?.scrollIntoView();
     setActiveSection(id);
   }, []);
 
@@ -101,7 +101,7 @@ const Index = () => {
           <div className="relative flex flex-col items-center md:items-end">
             <AnimatePresence>
               {showTutorial && (
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0, y: 10, x: 20 }}
                   animate={{ opacity: 1, y: -45, x: 0 }}
                   exit={{ opacity: 0, y: 10 }}
@@ -117,13 +117,12 @@ const Index = () => {
             </AnimatePresence>
             <button
               onClick={toggleProtocol}
-              className={`text-[10px] flex items-center justify-center gap-1.5 tracking-widest font-mono transition-colors duration-300 px-3 py-1.5 border ${
-                protocolActive 
-                  ? isComplete 
-                    ? "text-[#B8860B] border-[#B8860B] drop-shadow-[0_0_8px_rgba(184,134,11,0.5)]" 
+              className={`text-[10px] flex items-center justify-center gap-1.5 tracking-widest font-mono transition-colors duration-300 px-3 py-1.5 border ${protocolActive
+                  ? isComplete
+                    ? "text-[#B8860B] border-[#B8860B] drop-shadow-[0_0_8px_rgba(184,134,11,0.5)]"
                     : "text-[#B8860B] border-[#B8860B]"
                   : "text-muted-foreground border-transparent hover:text-foreground hover:border-foreground/30"
-              }`}
+                }`}
             >
               {!isComplete && protocolActive && (
                 <div className="w-3 h-3 rounded-full flex items-center justify-center bg-[#B8860B]/20 shadow-[0_0_6px_rgba(184,134,11,0.5)]">

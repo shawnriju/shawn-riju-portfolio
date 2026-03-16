@@ -58,6 +58,19 @@
 }
 
 @layer base {
+  html {
+    font-size: 18px;
+    scroll-behavior: smooth;
+    scroll-padding-top: 50px;
+  }
+
+  @media (min-width: 768px) {
+    html {
+      font-size: 16.6px;
+      scroll-padding-top: 50px;
+    }
+  }
+
   * {
     @apply border-border;
   }
@@ -242,12 +255,29 @@
 
 /* Glitch jitter on the ???% text */
 @keyframes mob-glitch {
-  0%   { transform: translate(0); }
-  20%  { transform: translate(-2px, 1px); }
-  40%  { transform: translate(-1px, -2px); }
-  60%  { transform: translate(2px, 1px); }
-  80%  { transform: translate(1px, -1px); }
-  100% { transform: translate(0); }
+  0% {
+    transform: translate(0);
+  }
+
+  20% {
+    transform: translate(-2px, 1px);
+  }
+
+  40% {
+    transform: translate(-1px, -2px);
+  }
+
+  60% {
+    transform: translate(2px, 1px);
+  }
+
+  80% {
+    transform: translate(1px, -1px);
+  }
+
+  100% {
+    transform: translate(0);
+  }
 }
 
 .mob-glitch-text {
@@ -262,9 +292,12 @@
 
 /* Purple / white pulsating glow on the Mob meter box */
 @keyframes mob-trigger-pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: 0 0 8px rgba(168, 85, 247, 0.4), 0 0 16px rgba(255, 255, 255, 0.1);
   }
+
   50% {
     box-shadow: 0 0 20px rgba(168, 85, 247, 0.7), 0 0 40px rgba(255, 255, 255, 0.3);
   }
@@ -278,11 +311,25 @@
 
 /* Static noise for the explosion overlay */
 @keyframes noise-shift {
-  0%   { background-position: 0 0; }
-  25%  { background-position: 50% 50%; }
-  50%  { background-position: 10% 80%; }
-  75%  { background-position: 80% 20%; }
-  100% { background-position: 0 0; }
+  0% {
+    background-position: 0 0;
+  }
+
+  25% {
+    background-position: 50% 50%;
+  }
+
+  50% {
+    background-position: 10% 80%;
+  }
+
+  75% {
+    background-position: 80% 20%;
+  }
+
+  100% {
+    background-position: 0 0;
+  }
 }
 
 .mob-static-noise {
@@ -293,9 +340,12 @@
 
 /* Purple trophy glow in header */
 @keyframes mob-trophy-pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     text-shadow: 0 0 5px #a855f7, 0 0 10px #a855f7;
   }
+
   50% {
     text-shadow: 0 0 8px #a855f7, 0 0 18px #a855f7, 0 0 30px rgba(168, 85, 247, 0.4);
   }
