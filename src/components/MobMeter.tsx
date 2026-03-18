@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import { useProtocol } from "./ProtocolContext";
-import { DataRecognitionTest } from "./DataRecognitionTest";
+
+const DataRecognitionTest = lazy(() => import("./DataRecognitionTest").then(m => ({ default: m.DataRecognitionTest })));
 
 const MobMeter = () => {
   const { hasMobTrophy } = useProtocol();
@@ -38,7 +39,7 @@ const MobMeter = () => {
         <div
           className={`nier-border bg-card px-3 py-2 text-center min-w-[60px] transition-all duration-300 ${
             showGlitch ? "mob-trigger-glow" : ""
-          }`}
+          } ${percent >= 100 ? "mob-meter-100" : ""}`}
         >
           <p className="text-[9px] tracking-widest text-muted-foreground mb-0.5">MOB</p>
           <p
@@ -57,7 +58,11 @@ const MobMeter = () => {
         </div>
       </div>
 
-      {showQuiz && <DataRecognitionTest onClose={() => setShowQuiz(false)} />}
+      {showQuiz && (
+        <Suspense fallback={null}>
+          <DataRecognitionTest onClose={() => setShowQuiz(false)} />
+        </Suspense>
+      )}
     </>
   );
 };

@@ -1,25 +1,28 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, lazy, Suspense } from "react";
 import TacticalHeader from "@/components/TacticalHeader";
 import IntroSection from "@/components/IntroSection";
-import ExperienceTimeline from "@/components/ExperienceTimeline";
-import MissionSelect from "@/components/MissionSelect";
-import SkillsSection from "@/components/SkillsSection";
-import EducationSection from "@/components/EducationSection";
-import ContactSection from "@/components/ContactSection";
-import MobMeter from "@/components/MobMeter";
-import ScrollbarController from "@/components/ScrollbarController";
-import SmokeTransition from "@/components/SmokeTransition";
-import NimbusCursor from "@/components/NimbusCursor";
 import { useProtocol } from "@/components/ProtocolContext";
-import { ShenronSummon } from "@/components/ShenronSummon";
 import { motion, AnimatePresence } from "framer-motion";
 import { StarBall } from "@/components/StarBall";
+
+// Lazy-loaded components for better bundle size
+const ExperienceTimeline = lazy(() => import("@/components/ExperienceTimeline"));
+const MissionSelect = lazy(() => import("@/components/MissionSelect"));
+const SkillsSection = lazy(() => import("@/components/SkillsSection"));
+const EducationSection = lazy(() => import("@/components/EducationSection"));
+const ContactSection = lazy(() => import("@/components/ContactSection"));
+const NimbusCursor = lazy(() => import("@/components/NimbusCursor"));
+const ShenronSummon = lazy(() => import("@/components/ShenronSummon").then(m => ({ default: m.ShenronSummon })));
+const MobMeter = lazy(() => import("@/components/MobMeter"));
+const ScrollbarController = lazy(() => import("@/components/ScrollbarController"));
 
 const SECTIONS = ["intro", "experience", "projects", "skills", "education", "contact"];
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState("intro");
-  const [eagleVision, setEagleVision] = useState(false);
+  const [eagleVision, setEagleVision] = useState(() => {
+    return sessionStorage.getItem("eagleVision") === "true";
+  });
   // const [smokeActive, setSmokeActive] = useState(false);
   const { protocolActive, toggleProtocol, foundBalls, tutorialDismissed } = useProtocol();
 
@@ -64,31 +67,44 @@ const Index = () => {
 
   return (
     <div className={`min-h-screen text-foreground transition-colors duration-500 ${eagleVision ? "eagle-vision" : ""}`}>
-      <ShenronSummon />
+      <Suspense fallback={null}>
+        <ShenronSummon />
+      </Suspense>
       <div className={`eagle-vision-overlay transition-all duration-500 ${eagleVision ? "opacity-100" : "opacity-0 pointer-events-none"}`} aria-hidden="true" />
-      {nimbusCursorActive && <NimbusCursor />}
-      <ScrollbarController />
-      {/* <SmokeTransition isActive={false} /> */}
+      <Suspense fallback={null}>
+        {nimbusCursorActive && <NimbusCursor />}
+      </Suspense>
+      <Suspense fallback={null}>
+        <ScrollbarController />
+      </Suspense>
       <TacticalHeader
         activeSection={activeSection}
         onNavigate={handleNavigate}
         eagleVision={eagleVision}
-        onToggleEagle={() => setEagleVision(!eagleVision)}
+        onToggleEagle={() => {
+          setEagleVision(!eagleVision)
+          sessionStorage.setItem("eagleVision", (!eagleVision).toString());
+        }}
       />
-      <MobMeter />
+      <Suspense fallback={null}>
+        <MobMeter />
+      </Suspense>
 
       <main className="pt-24 pb-16 max-w-6xl mx-auto px-4">
         <IntroSection eagleVision={eagleVision} />
         <div className="w-full h-px bg-border my-4" />
-        <ExperienceTimeline eagleVision={eagleVision} />
-        <div className="w-full h-px bg-border my-4" />
-        <MissionSelect eagleVision={eagleVision} />
-        <div className="w-full h-px bg-border my-4" />
-        <SkillsSection eagleVision={eagleVision} />
-        <div className="w-full h-px bg-border my-4" />
-        <EducationSection eagleVision={eagleVision} />
-        <div className="w-full h-px bg-border my-4" />
-        <ContactSection />
+
+        <Suspense fallback={<div className="h-20 flex items-center justify-center font-mono text-[10px] tracking-widest text-muted-foreground">LOADING_CORE_DATA...</div>}>
+          <ExperienceTimeline eagleVision={eagleVision} />
+          <div className="w-full h-px bg-border my-4" />
+          <MissionSelect eagleVision={eagleVision} />
+          <div className="w-full h-px bg-border my-4" />
+          <SkillsSection eagleVision={eagleVision} />
+          <div className="w-full h-px bg-border my-4" />
+          <EducationSection eagleVision={eagleVision} />
+          <div className="w-full h-px bg-border my-4" />
+          <ContactSection />
+        </Suspense>
       </main>
 
       {/* Footer */}
@@ -118,10 +134,10 @@ const Index = () => {
             <button
               onClick={toggleProtocol}
               className={`text-[10px] flex items-center justify-center gap-1.5 tracking-widest font-mono transition-colors duration-300 px-3 py-1.5 border ${protocolActive
-                  ? isComplete
-                    ? "text-[#B8860B] border-[#B8860B] drop-shadow-[0_0_8px_rgba(184,134,11,0.5)]"
-                    : "text-[#B8860B] border-[#B8860B]"
-                  : "text-muted-foreground border-transparent hover:text-foreground hover:border-foreground/30"
+                ? isComplete
+                  ? "text-[#B8860B] border-[#B8860B] drop-shadow-[0_0_8px_rgba(184,134,11,0.5)]"
+                  : "text-[#B8860B] border-[#B8860B]"
+                : "text-muted-foreground border-transparent hover:text-foreground hover:border-foreground/30"
                 }`}
             >
               {!isComplete && protocolActive && (

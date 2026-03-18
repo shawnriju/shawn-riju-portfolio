@@ -44,7 +44,7 @@ let cumulativeDelay = 0.3; // Give the collapse animation time to open
 const sectionsWithDelay = textContent.map((section) => {
   const words = section.body.split(/(\s+)/); // Preserve spaces and newlines
   const myDelay = cumulativeDelay;
-  cumulativeDelay += (words.length * 0.015) + 0.4; // 15ms per word/space + 400ms pause between sections
+  cumulativeDelay += (words.length * 0.005) + 0.25; // 7.5ms per word/space + 250ms pause between sections
   return { ...section, words, myDelay };
 });
 
@@ -109,7 +109,7 @@ const ContactSection = () => {
                         initial="hidden"
                         animate="visible"
                         variants={{
-                          visible: { transition: { staggerChildren: 0.015, delayChildren: section.myDelay + 0.1 } }
+                          visible: { transition: { staggerChildren: 0.006, delayChildren: section.myDelay + 0.1 } }
                         }}
                         className="font-serif text-[15px] md:text-base leading-relaxed text-foreground/90 whitespace-pre-wrap"
                       >

@@ -95,6 +95,8 @@ const NimbusCursor = () => {
   const reducedMotionRef = useRef(false);
   const pulseAnimRef = useRef<ReturnType<typeof animate> | null>(null);
   const sparkIntervalRef = useRef(0);
+  const lastHoveredEl = useRef<HTMLElement | null>(null);
+  const cachedRect = useRef<DOMRect | null>(null);
 
   // Check reduced motion preference
   useEffect(() => {
@@ -192,18 +194,28 @@ const NimbusCursor = () => {
 
       // Dynamic Pointing Calculation
       if (clickableEl) {
-        const rect = clickableEl.getBoundingClientRect();
-        const cx = rect.left + rect.width / 2;
-        const cy = rect.top + rect.height / 2;
-        const targetDx = cx - e.clientX;
-        const targetDy = cy - e.clientY;
-        const angle = Math.atan2(targetDy, targetDx) * (180 / Math.PI);
+        // Only recalculate the rect if we're hovering a new element
+        if (lastHoveredEl.current !== clickableEl) {
+          lastHoveredEl.current = clickableEl;
+          cachedRect.current = clickableEl.getBoundingClientRect();
+        }
+        
+        const rect = cachedRect.current;
+        if (rect) {
+          const cx = rect.left + rect.width / 2;
+          const cy = rect.top + rect.height / 2;
+          const targetDx = cx - e.clientX;
+          const targetDy = cy - e.clientY;
+          const angle = Math.atan2(targetDy, targetDx) * (180 / Math.PI);
 
-        // Prevent spring rotation jumping by adjusting the angle relative to current
-        const currentAngle = pointerAngle.get();
-        const diff = ((angle - currentAngle + 180) % 360) - 180;
-        pointerAngle.set(currentAngle + diff);
+          // Prevent spring rotation jumping by adjusting the angle relative to current
+          const currentAngle = pointerAngle.get();
+          const diff = ((angle - currentAngle + 180) % 360) - 180;
+          pointerAngle.set(currentAngle + diff);
+        }
       } else {
+        lastHoveredEl.current = null;
+        cachedRect.current = null;
         // Return to default resting angle gracefully (0)
         const currentAngle = pointerAngle.get();
         const diff = ((0 - currentAngle + 180) % 360) - 180;
