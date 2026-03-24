@@ -1,5 +1,7 @@
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useProtocol } from "./ProtocolContext";
+import ResumeModal from "./ResumeModal";
 
 const NAV_ITEMS = [
   { id: "intro", label: "PROFILE" },
@@ -15,20 +17,50 @@ interface TacticalHeaderProps {
   onNavigate: (id: string) => void;
   eagleVision: boolean;
   onToggleEagle: () => void;
+  onOpenResume: () => void;
 }
 
-const TacticalHeader = ({ activeSection, onNavigate, eagleVision, onToggleEagle }: TacticalHeaderProps) => {
+const TacticalHeader = ({ activeSection, onNavigate, eagleVision, onToggleEagle, onOpenResume }: TacticalHeaderProps) => {
   const { foundBalls, hasMobTrophy } = useProtocol();
   const isComplete = foundBalls.length === 7;
+  const [isHovering, setIsHovering] = useState(false);
 
   return (
     <header className="fixed top-0 left-0 right-0 z-[60] bg-background/90 backdrop-blur-sm">
       <div className="max-w-6xl mx-auto px-4">
         {/* Top bar */}
         <div className="flex items-center justify-between py-3 border-b border-border">
-          <div className="flex items-center gap-2 relative">
-            <span className="text-xs text-muted-foreground tracking-widest">SYS://</span>
-            <span className="text-sm font-semibold tracking-wider mr-2">SHAWN RIJU</span>
+          <div 
+            className="flex items-center gap-2 relative cursor-pointer group"
+            onClick={onOpenResume}
+            onMouseEnter={() => setIsHovering(true)}
+            onMouseLeave={() => setIsHovering(false)}
+          >
+            {/* Hover Tooltip - Positioned Below */}
+            <AnimatePresence>
+              {isHovering && (
+                <motion.div
+                  initial={{ opacity: 0, y: -5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -5 }}
+                  transition={{ duration: 0.15 }}
+                  className="absolute top-full left-0 mt-3 z-50 pointer-events-none"
+                >
+                  <div className="bg-foreground text-background text-[8px] font-bold tracking-[0.2em] px-2 py-1 shadow-xl border border-border whitespace-nowrap">
+                    [ OPEN_UNIT_SPECIFICATIONS ]
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            <span className="text-xs text-muted-foreground tracking-widest pulse-subtle">SYS://</span>
+            <span 
+              className={`text-sm font-semibold tracking-wider mr-2 transition-all duration-300 ${isHovering ? "glitch-text" : ""}`}
+              data-text="SHAWN RIJU"
+            >
+              SHAWN RIJU
+            </span>
+
             {isComplete && (
               <div className="group relative" title="[ QUEST_COMPLETE: SHENRON_TROPHY ]">
                 <motion.svg

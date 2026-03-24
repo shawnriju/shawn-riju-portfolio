@@ -190,7 +190,7 @@ const ExperienceTimeline = ({ eagleVision }: { eagleVision: boolean }) => {
   return (
     <section id="experience" className="py-20">
       <div className="max-w-4xl mx-auto px-4">
-        <p className="text-xs tracking-[0.3em] text-muted-foreground mb-2 text-center">// DATA_LOG: THE GRAND LINE VOYAGE</p>
+        <p className="text-xs tracking-[0.3em] text-muted-foreground mb-2 text-center">DATA_LOG: THE GRAND LINE VOYAGE</p>
         <h2 className="text-2xl font-light tracking-wider text-center mb-12">EXPERIENCE</h2>
 
         <div className="relative">

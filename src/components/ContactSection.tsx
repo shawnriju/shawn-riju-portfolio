@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mail, Github } from "lucide-react";
+import { Mail, Github, Download } from "lucide-react";
 
 const LinkedInIcon = ({ size = 16, className = "" }: { size?: number; className?: string }) => (
   <svg
@@ -171,6 +171,15 @@ const ContactSection = () => {
               <span>[</span>
               <Github size={16} className="transition-transform group-hover:scale-110" />
               <span>GITHUB_SRC ]</span>
+            </a>
+            <a
+              href="/Resume_Shawn_BE.pdf"
+              download="Shawn_Riju_Resume.pdf"
+              className="group flex items-center gap-1.5 text-xs md:text-sm tracking-widest font-mono font-bold transition-all duration-300 hover:text-[hsl(var(--ssj-gold))] hover:drop-shadow-[0_0_8px_hsl(var(--ssj-gold)/0.8)]"
+            >
+              <span>[</span>
+              <Download size={16} className="transition-transform group-hover:scale-110" />
+              <span>EXPORT_RESUME ]</span>
             </a>
           </div>
 

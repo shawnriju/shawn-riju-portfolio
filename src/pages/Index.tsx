@@ -4,6 +4,7 @@ import IntroSection from "@/components/IntroSection";
 import { useProtocol } from "@/components/ProtocolContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { StarBall } from "@/components/StarBall";
+import ResumeModal from "@/components/ResumeModal";
 
 // Lazy-loaded components for better bundle size
 const ExperienceTimeline = lazy(() => import("@/components/ExperienceTimeline"));
@@ -20,6 +21,7 @@ const SECTIONS = ["intro", "experience", "projects", "skills", "education", "con
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState("intro");
+  const [isResumeOpen, setIsResumeOpen] = useState(false);
   const [eagleVision, setEagleVision] = useState(() => {
     return sessionStorage.getItem("eagleVision") === "true";
   });
@@ -85,7 +87,11 @@ const Index = () => {
           setEagleVision(!eagleVision)
           sessionStorage.setItem("eagleVision", (!eagleVision).toString());
         }}
+        onOpenResume={() => setIsResumeOpen(true)}
       />
+
+      <ResumeModal isOpen={isResumeOpen} onClose={() => setIsResumeOpen(false)} />
+
       <Suspense fallback={null}>
         <MobMeter />
       </Suspense>
