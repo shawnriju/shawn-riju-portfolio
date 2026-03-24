@@ -15,6 +15,15 @@ interface Mission {
 
 const missions: Mission[] = [
   {
+    id: "watched-list",
+    title: "WatchedList",
+    codename: "MEDIA ARCHIVE SYSTEM",
+    status: "COMPLETE",
+    description: "A full-stack cloud-native media tracking [application](https://main.d2a1xmlmlsvcav.amplifyapp.com/) that allows users to catalogue and manage their watched movies, TV shows, and anime. Built with a **.NET 8 REST API** backend and **React** frontend, the application handles per-user data isolation with **AWS Cognito** authentication and **DynamoDB** storage. Features an event-driven thumbnail processing pipeline via **AWS Lambda**, automatically triggered on **S3** uploads to handle image resizing without coupling to the core API. Deployed on **AWS Amplify** and **Render** with **Docker** containerisation for streamlined cloud hosting.",
+    tech: "C#, .NET 8, React, AWS Cognito, AWS DynamoDB, AWS S3, AWS Lambda, Python, AWS Amplify, Docker, Render",
+    githubUrl: "https://github.com/shawnriju/anime-vault",
+  },
+  {
     id: "site-simplify",
     title: "Site Simplify",
     codename: "WEB INTELLIGENCE",
@@ -64,6 +73,49 @@ const missions: Mission[] = [
 const MissionSelect = ({ eagleVision }: { eagleVision: boolean }) => {
   const [selected, setSelected] = useState(0);
   const mission = missions[selected];
+
+  const renderDescription = (text: string) => {
+    // This regex matches both **bold** and [text](url)
+    const parts = text.split(/(\*\*.*?\*\*|\[.*?\]\(.*?\))/g);
+
+    return parts.map((part, index) => {
+      // Bold text handling
+      if (part.startsWith("**") && part.endsWith("**")) {
+        const content = part.slice(2, -2);
+        return (
+          <span
+            key={index}
+            className={`font-semibold transition-colors duration-300 ${eagleVision ? "eagle-glow text-primary" : "text-foreground"
+              }`}
+          >
+            {content}
+          </span>
+        );
+      }
+
+      // Link handling
+      if (part.startsWith("[") && part.includes("](")) {
+        const match = part.match(/\[(.*?)\]\((.*?)\)/);
+        if (match) {
+          const [, linkText, url] = match;
+          return (
+            <a
+              key={index}
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`font-medium underline decoration-primary/30 underline-offset-4 hover:decoration-primary transition-all duration-300 ${eagleVision ? "eagle-glow text-primary" : "text-primary/80 hover:text-primary"
+                }`}
+            >
+              {linkText}
+            </a>
+          );
+        }
+      }
+
+      return part;
+    });
+  };
 
   return (
     <section id="projects" className="py-20">
@@ -126,15 +178,7 @@ const MissionSelect = ({ eagleVision }: { eagleVision: boolean }) => {
                     {mission.id === "digital-twin" && <StarBall number={5} className="absolute top-2 right-0" />}
                   </div>
                   <p className="text-sm leading-relaxed text-foreground/90 whitespace-pre-wrap">
-                    {mission.description.split("**").map((part, index) =>
-                      index % 2 === 1 ? (
-                        <span key={index} className={`font-semibold transition-colors duration-300 ${eagleVision ? "eagle-glow text-primary" : "text-foreground"}`}>
-                          {part}
-                        </span>
-                      ) : (
-                        part
-                      )
-                    )}
+                    {renderDescription(mission.description)}
                   </p>
                 </div>
 
