@@ -15,6 +15,15 @@ interface Mission {
 
 const missions: Mission[] = [
   {
+    id: "rediscovr",
+    title: "Rediscovr",
+    codename: "CONTENT RETRIEVAL INTELLIGENCE",
+    status: "ACTIVE",
+    description: "An AI-powered [content library](https://rediscovr.vercel.app/) that transforms saved Instagram Reels into a searchable knowledge base. Users can save videos via a web app or browser extension, triggering an asynchronous **FastAPI** pipeline that uses the **OpenAI API** and **Whisper** for transcription, summarisation, and embedding generation. Features semantic search powered by **vector similarity**, enabling natural language retrieval beyond keyword matching. Built with **Next.js 15** and **Supabase** (PostgreSQL + RLS) for secure per-user data isolation, and deployed on **Vercel** and **Render**.",
+    tech: "TypeScript, Next.js 15, React, Tailwind CSS, FastAPI, Python, Supabase, PostgreSQL, pgvector, OpenAI API, Whisper, Plasmo, Vercel, Render",
+    githubUrl: "https://github.com/shawnriju/rediscovr-app",
+  },
+  {
     id: "watched-list",
     title: "WatchedList",
     codename: "MEDIA ARCHIVE SYSTEM",

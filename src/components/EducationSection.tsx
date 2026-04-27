@@ -32,14 +32,14 @@ const academicRecords = [
 const commendations: Commendation[] = [
   {
     title: "Shining Star Award",
-    description: "For impactful contributions to the Marketing team at Leeds University Union.",
+    description: "Organisation-wide peer-nominated award for impactful contributions to the Marketing team at Leeds University Union.",
     image: shiningStarImg,
     logId: "SHINING_STAR",
     imageClass: "object-[center_35%]",
   },
   {
     title: "Best Catering Assistant 2024",
-    description: "For reliability and teamwork in a fast-paced environment.",
+    description: "Unanimously voted by colleagues for reliability, teamwork, and consistency in a fast-paced environment.",
     image: cateringAwardImg,
     logId: "CA_OF_THE_YEAR",
     imageClass: "object-[center_65%]",
